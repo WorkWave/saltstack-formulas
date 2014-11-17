@@ -2,14 +2,7 @@
 # Ubuntu tested only.
 # --------------------------------------------------
 
-# If this state is not executed, the downloaded installer will prompt interactively
-# for confirmation that the license is agreed to.  To install automatically,
-# the pkg installer requires this state.
-
-#Accept Oracle Terms:
-#  cmd.run:
-#    - name: echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-
+# Automatically accept the oracle license
 Accept Oracle Terms:
   debconf.set:
     - name: oracle-java6-installer 
@@ -26,6 +19,7 @@ webupd8-repo:
     - keyserver: keyserver.ubuntu.com
     - enabled: 1
 
+# Set JAVA_HOME.
 /etc/profile.d/set-java-home.sh:
   file.managed:
     - template: jinja
@@ -33,6 +27,7 @@ webupd8-repo:
     - context:
       java_home: {{ pillar['java']['java_home'] }}
 
+# Include US security files.
 {{ pillar['java']['java_home'] }}/jre/lib/security/local_policy.jar:
   file.managed:
    - require:
@@ -45,6 +40,7 @@ webupd8-repo:
      - pkg: oracle-java6-installer
    - source: salt://oracle-java/files/US_export_policy.jar
 
+# Run the installer itself
 oracle-java6-installer:
   pkg:
     - installed
