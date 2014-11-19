@@ -1,13 +1,25 @@
 saltstack-formulas
 ==================
 
-Saltstack shared formulas.
+Saltstack shared formulas.  See [Salt Formulas installation and usage instructions](http://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html) for more information.
 
 # oracle-java
 
-Automatically downloads and installs Oracle jdk6 from the WEB-UPD8 repo.  
-Tested only on Ubuntu.  Currently supports only JDK6, but easy to 
-replicate for JDK7 which is also available from WEB-UPD8.
+Automatically downloads and installs Oracle jdk (6, 7 or 8) from the WEB-UPD8 repo.  
+Tested only on Ubuntu.
+
+Example `top.sls` usage:
+
+    base:
+      '*dev':
+        - java7
+
+Substitute `java6` or `java8` for other JDK's.
+
+Note: it is possible to install more than one JDK; however, the JAVA_PATH will
+be set based on the value of the pillar variable, `oracle-home.java_home`.  
+
+To-do: Add `alternatives` install and configuration
 
 See [web-upd8](http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html) for more information.
 
