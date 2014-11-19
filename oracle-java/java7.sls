@@ -2,6 +2,8 @@
 # Ubuntu tested only.
 # --------------------------------------------------
 
+{% set java_home = salt['pillar.get']('oracle-java:java_home', '/usr/lib/jvm/java-7-oracle') %}
+
 include:
   - oracle-java.common
 
