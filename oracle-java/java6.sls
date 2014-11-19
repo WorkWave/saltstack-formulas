@@ -18,7 +18,7 @@ Accept Oracle6 Terms:
     - template: jinja
     - source: salt://oracle-java/files/set-java-home.sh
     - context:
-      java_home: {{ pillar['java']['java_home'] }}
+      java_home: {{ pillar['oracle-java']['java_home'] }}
 
 # Include US security files.
 {{ pillar['java']['java_home'] }}/jre/lib/security/local_policy.jar:
