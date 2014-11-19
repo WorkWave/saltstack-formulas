@@ -18,4 +18,4 @@ webupd8-repo:
     - template: jinja
     - source: salt://oracle-java/files/set-java-home.sh
     - context:
-      java_home: {{ pillar['java']['java_home'] }}
+      java_home: {{ pillar['oracle-java']['java_home'] }}
