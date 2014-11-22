@@ -1,0 +1,9 @@
+[submodule "java-formula"]
+	path = java-formula
+	url = https://github.com/saltstack-formulas/java-formula.git
+[submodule "mysql-formula"]
+	path = mysql-formula
+	url = https://github.com/saltstack-formulas/mysql-formula.git
+[submodule "tomcat-formula"]
+	path = tomcat-formula
+	url = https://github.com/saltstack-formulas/tomcat-formula.git
