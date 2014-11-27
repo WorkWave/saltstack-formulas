@@ -2,6 +2,8 @@
 # Ubuntu tested only.
 # --------------------------------------------------
 
+{% set java_home = salt['pillar.get']('oracle-java:java_home', 'java_home_not_set') %}
+
 # Configure apt to use the WEB UPD8 repo
 webupd8-repo:
   pkgrepo.managed:
