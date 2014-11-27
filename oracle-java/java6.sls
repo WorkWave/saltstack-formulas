@@ -2,10 +2,9 @@
 # Ubuntu tested only.
 # --------------------------------------------------
 
-{% set java_home = salt['pillar.get']('oracle-java:java_home', '/usr/lib/jvm/java-6-oracle') %}
+{% set java_version = '6' %}
 
-include:
-  - oracle-java.common
+{% include 'oracle-java/common.sls' %}
 
 # Automatically accept the oracle license
 Accept Oracle6 Terms:
@@ -13,14 +12,6 @@ Accept Oracle6 Terms:
     - name: oracle-java6-installer 
     - data: 
         'shared/accepted-oracle-license-v1-1': {'type': 'boolean', 'value': True }
-
-# Set JAVA_HOME.
-/etc/profile.d/set-java-home.sh:
-  file.managed:
-    - template: jinja
-    - source: salt://oracle-java/files/set-java-home.sh
-    - context:
-      java_home: {{ pillar['oracle-java']['java_home'] }}
 
 # Include US security files.
 {{ pillar['java']['java_home'] }}/jre/lib/security/local_policy.jar:
