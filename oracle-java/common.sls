@@ -2,7 +2,7 @@
 # Ubuntu tested only.
 # --------------------------------------------------
 
-{% set java_home = salt['pillar.get']('oracle-java:java_home', 'java_home_not_set') %}
+{% from "oracle-java/map.jinja" import java with context %}
 
 # Configure apt to use the WEB UPD8 repo
 webupd8-repo:
@@ -25,4 +25,4 @@ webupd8-repo:
     - template: jinja
     - source: salt://oracle-java/files/set-java-home.sh
     - context:
-      java_home: {{ java_home }}
+      java_home: {{ java.java_home }}

@@ -1,0 +1,10 @@
+
+{% set java = salt['grains.filter_by']( {
+    'default': {
+      'java_home': '/usr/lib/jvm/java-'+ java_version + '-oracle',
+    },
+  },
+  merge=salt['pillar.get']('oracle-java:lookup') 
+)
+%}
+
