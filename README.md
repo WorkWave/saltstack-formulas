@@ -12,7 +12,7 @@ Example `top.sls` usage:
 
     base:
       '*dev':
-        - java7
+        - oracle-java.java7
 
 Substitute `java6` or `java8` for other JDK's.
 

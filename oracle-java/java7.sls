@@ -2,10 +2,9 @@
 # Ubuntu tested only.
 # --------------------------------------------------
 
-{% set java_home = salt['pillar.get']('oracle-java:java_home', '/usr/lib/jvm/java-7-oracle') %}
+{% set java_version = '7' %}
 
-include:
-  - oracle-java.common
+{% include 'oracle-java/common.sls' %}
 
 # Automatically accept the oracle license
 Accept Oracle7 Terms:
