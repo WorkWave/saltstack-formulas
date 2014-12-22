@@ -16,32 +16,15 @@
     - name: wget {{ go_uri + go_server_file }} -O {{ go_server_pkg_path }} -q
     - unless: test -f {{ go_server_pkg_path }}
 
-# Test
-/tmp/rundpkg.sh:
-  file.managed:
-    - contents: |
-        #!/bin/bash
-        dpkg -i -G -E --force-confold $1
-    - user: vagrant 
-
-# --force-unsafe-io
-# --ignore-depends
-# --skip-same-version
-# dpkg -i --force-confold
-go-server:
+go-server-installed:
   cmd.run:
-#    - name: /home/vagrant/rundpkg.sh {{ go_server_pkg_path }}
     - name: dpkg -i --force-confold {{ go_server_pkg_path }} > t.log 2>& 1
-#    - name: echo `dpkg -i --force-confold {{ go_server_pkg_path }}`
-    - output_loglevel: debug
     - unless: dpkg --list go-server | grep {{ go_version }}
-#    - use_vt: true
-#    - timeout: 60
+    - require:
+      - cmd: {{ go_server_pkg_path }}
 
-#  pkg.installed:
-#    - sources:
-#      - go-server: {{ go_uri + go_server_file }}
-#    - require:
-#      - pkg: unzip
-#      - sls: oracle-java.java7
-#      - cmd: {{ go_server_pkg_path }}
+go-server:
+  service:
+    - running
+    - require:
+      - cmd: go-server-installed

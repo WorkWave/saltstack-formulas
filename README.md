@@ -1,7 +1,9 @@
 saltstack-formulas
 ==================
 
-Saltstack shared formulas.  See [Salt Formulas installation and usage instructions](http://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html) for more information.
+Saltstack shared formulas for Marathon Data.  
+
+The formulas here follow guidelines provided by saltstack in [Salt Formulas installation and usage instructions](http://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html) for more information.
 
 # oracle-java
 
@@ -23,8 +25,21 @@ To-do: Add `alternatives` install and configuration
 
 See [web-upd8](http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html) for more information.
 
+# go
+
+Downloads and installs the Thoughtworks go server or agent.  The server will be available on the default port of 8143 (e.g., http://mygoserver:8143/go).  The state ensures that java7 is installed as a pre-requisite.
+
+Example usage:
+
+    base:
+      'mygoserver':
+        - go.server
+        - go.agent
+
+See [go](http://www.go.cd/) for more info about go.
+
 # wso2
 
-Installs various WSO2 products.  Note that each product must be downloaded to
+Installs various WSO2 products.  Each product must be downloaded to
 the `files` directory in order to install, as WSO2 protects downloads via
 authentication and provides no repository.
