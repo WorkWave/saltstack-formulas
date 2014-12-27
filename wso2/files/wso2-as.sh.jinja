@@ -1,0 +1,24 @@
+#!/bin/sh
+export JAVA_HOME={{ java_home }}
+ 
+startcmd='{{ wso2_root }}/bin/wso2server.sh start > /dev/null &'
+restartcmd='{{ wso2_root }}/bin/wso2server.sh restart > /dev/null &'
+stopcmd='{{ wso2_root }}/bin/wso2server.sh stop > /dev/null &'
+ 
+case "$1" in
+start)
+   echo "Starting WSO2 Application Server ..."
+   su -c "${startcmd}" {{ wso2_user }}
+;;
+restart)
+   echo "Re-starting WSO2 Application Server ..."
+   su -c "${restartcmd}" {{ wso2_user }}
+;;
+stop)
+   echo "Stopping WSO2 Application Server ..."
+   su -c "${stopcmd}" {{ wso2_user }}
+;;
+*)
+   echo "Usage: $0 {start|stop|restart}"
+exit 1
+esac
