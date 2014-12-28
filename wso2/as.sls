@@ -43,7 +43,7 @@ wso2as:
       - pkg: unzip
       - sls: oracle-java.java6
 
-wso2_dir:
+{{ wso2_root }}:
   file.directory:
     - name: {{ wso2_root }}
     - user: {{ as_user }}
@@ -52,16 +52,29 @@ wso2_dir:
     - recurse:
       - user
       - group
+      - mode
+#    - unless: test -d {{ wso2_root }}
     - require:
       - archive: wso2as
       - user: as-user-{{ as_user }}
       - group: as-group-{{ as_group }}
 
-/etc/init.d/wso2-as.sh:
+
+/etc/init.d/wso2as:
   file.managed:
     - template: jinja
     - source: salt://wso2/files/wso2-as.sh.jinja
+    - mode: 755
     - context:
       java_home: {{ pillar['java']['java_home'] }}
       wso2_user: {{ as_user }}
       wso2_root: {{ wso2_root }}
+
+enable-wso2as-at-startup:
+  cmd.run:
+    - name: update-rc.d wso2as defaults
+    - unless: update-rc.d -n wso2as defaults | grep "already exist"
+
+ensure-wso2as-service-running:
+  service.running:
+    - name: wso2as
