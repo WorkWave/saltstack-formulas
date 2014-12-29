@@ -5,10 +5,12 @@
 
 include:
   - wso2.common
+  - oracle-java.java6
 
 {% set esb_user = salt['pillar.get']('wso2:esb:user', 'wso2esb') %}
 {% set esb_group = salt['pillar.get']('wso2:esb:group', 'users') %}
 {% set esb_version = salt['pillar.get']('wso2:esb:version', '4.7.0') %}
+{% set esb_root = salt['pillar.get']('wso2:esb:root', '/opt/wso2esb-4.7.0') %}
 
 {{ esb_user }}:
   user.present:
@@ -32,15 +34,15 @@ wso2esb:
     - extracted
     - name: /opt/ 
     - source: salt://wso2/files/wso2esb-{{ esb_version }}.zip
-#    - source_hash: md5=8dc1cea6e99ed2ef1a2bb75c92097320
     - archive_format: zip
-    - if_missing: /opt/wso2esb-{{ esb_version }}
+    - if_missing: {{ esb_root }}
     - require:
       - pkg: unzip
+      - sls: oracle-java.java6
 
 wso2_dir:
   file.directory:
-    - name: /opt/wso2esb-{{ esb_version }}
+    - name: {{ esb_root }}
     - user: {{ esb_user }}
     - group: {{ esb_group }}
     - mode: 755
@@ -51,3 +53,34 @@ wso2_dir:
       - archive: wso2esb
       - user: {{ esb_user }}
       - group: {{ esb_group }}
+
+wso2-scripts-executable:
+  file.managed:
+    - name: {{ esb_root }}/bin/wso2server.sh
+    - mode: 755
+
+/etc/init.d/wso2esb:
+  file.managed:
+    - template: jinja
+    - source: salt://wso2/files/wso2-initd-script.jinja
+    - mode: 755
+    - context:
+      java_home: {{ pillar['java']['java_home'] }}
+      wso2_user: {{ esb_user }}
+      wso2_root: {{ esb_root }}
+      wso2_service: wso2esb
+    - require:
+      - file: wso2_dir
+
+enable-wso2as-at-startup:
+  cmd.run:
+    - name: update-rc.d wso2esb defaults
+    - unless: update-rc.d -n wso2esb defaults | grep "already exist"
+    - require:
+      - file: /etc/init.d/wso2esb
+
+ensure-wso2as-service-running:
+  service.running:
+    - name: wso2esb
+    - require:
+      - file: /etc/init.d/wso2esb
