@@ -5,7 +5,7 @@
 
 include:
   - wso2.common
-  - oracle-java.java6
+  - oracle-java.java7
 
 {% set esb_user = salt['pillar.get']('wso2:esb:user', 'wso2esb') %}
 {% set esb_group = salt['pillar.get']('wso2:esb:group', 'users') %}
@@ -38,7 +38,7 @@ wso2esb:
     - if_missing: {{ esb_root }}
     - require:
       - pkg: unzip
-      - sls: oracle-java.java6
+      - sls: oracle-java.java7
 
 wso2_dir:
   file.directory:

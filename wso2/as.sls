@@ -5,7 +5,7 @@
 
 include:
   - wso2.common
-  - oracle-java.java6
+  - oracle-java.java7
 
 {% set as_user = salt['pillar.get']('wso2:as:user', 'vagrant') %}
 {% set as_group = salt['pillar.get']('wso2:as:group', 'wso2') %}
@@ -41,7 +41,7 @@ wso2as:
     - if_missing: {{ wso2_root }}
     - require:
       - pkg: unzip
-      - sls: oracle-java.java6
+      - sls: oracle-java.java7
 
 {{ wso2_root }}:
   file.directory:
