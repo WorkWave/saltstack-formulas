@@ -11,6 +11,7 @@ include:
 {% set as_group = salt['pillar.get']('wso2:as:group', 'wso2') %}
 {% set as_version = salt['pillar.get']('wso2:as:version', '5.2.1') %}
 {% set wso2_root = salt['pillar.get']('wso2:as:root', '/opt/wso2as-5.2.1') %}
+{% set java_home = salt['pillar.get']('java:home','/usr/lib/jvm/java-7-oracle') %}
 
 as-user-{{ as_user }}:
   user.present:
@@ -66,7 +67,7 @@ wso2as:
     - source: salt://wso2/files/wso2-as.sh.jinja
     - mode: 755
     - context:
-      java_home: {{ pillar['java']['java_home'] }}
+      java_home: {{ java_home }}
       wso2_user: {{ as_user }}
       wso2_root: {{ wso2_root }}
 
