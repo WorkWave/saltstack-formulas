@@ -1,7 +1,8 @@
 # Zabbix Agent
 # -------------------------------------------------------------
 
-{% include 'zabbix/common.sls' %}
+include:
+  - zabbix.common
 
 zabbix-agent:
   pkg.installed:
