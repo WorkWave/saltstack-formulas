@@ -1,7 +1,9 @@
 # Zabbix server install
 # ------------------------------------------------------------------------------
 
-{% include 'zabbix/common.sls' %}
+include:
+  - zabbix.common
+
 {% set mysql_root_pass = salt['pillar.get']('mysql:server:root_password', salt['grains.get']('server_id')) %}
 {% set database = salt['pillar.get']('zabbix:db:database', 'zabbix') %}
 
@@ -15,6 +17,8 @@ php-set-timezone:
     - pattern: '^;date.timezone ='
     - repl: date.timezone = "America/New_York"
     - unless: grep '^date.timezone' /etc/php5/apache2/php.ini
+    - requires:
+      - pkg: zabbix-server-mysql
 
 zabbix-server-mysql:
   pkg.installed:
@@ -58,3 +62,10 @@ zabbix-data-init:
     - mode: 700 
     - require:
       - pkg: zabbix-server-mysql
+
+/etc/zabbix/zabbix_server.conf:
+  file.replace:
+    - name: /etc/hosts
+    - pattern: '^DBPassword=.*'
+    - repl: DBPassword=zabbixpass
+
