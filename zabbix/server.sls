@@ -7,7 +7,6 @@ include:
 {% set mysql_root_pass = salt['pillar.get']('mysql:server:root_password', salt['grains.get']('server_id')) %}
 {% set database = salt['pillar.get']('zabbix:db:database', 'zabbix') %}
 
-
 # Password in /etc/zabbix/zabbix_server.conf was not set properly
 # DBPassword=zabbix
 # runs through the config / setup script -- automate that.
@@ -17,7 +16,7 @@ php-set-timezone:
     - pattern: '^;date.timezone ='
     - repl: date.timezone = "America/New_York"
     - unless: grep '^date.timezone' /etc/php5/apache2/php.ini
-    - requires:
+    - require:
       - pkg: zabbix-server-mysql
 
 zabbix-server-mysql:
@@ -30,10 +29,14 @@ zabbix-server-mysql:
       - pkgrepo: zabbix-repo
 
 zabbix-server:
-  service:
-    - running
+  service.running:
+    - enable: True
+    - watch:
+      - file: /etc/zabbix/zabbix_server.conf
     - require:
       - pkg: zabbix-server-mysql
+      - file: /etc/zabbix/zabbix_server.conf
+    - order: last
 
 zabbix-schema-init:
     cmd.run:
@@ -64,8 +67,29 @@ zabbix-data-init:
       - pkg: zabbix-server-mysql
 
 /etc/zabbix/zabbix_server.conf:
-  file.replace:
-    - name: /etc/hosts
-    - pattern: '^DBPassword=.*'
-    - repl: DBPassword=zabbixpass
+  file.managed:
+    - template: jinja
+    - source: salt://zabbix/files/zabbix_server.conf.jinja
+    - mode: 755
+    - context:
+      database: {{ database }}
+
+apache2-service:
+  service.running:
+    - name: apache2
+    - enable: True
+    - require:
+      - pkg: zabbix-server-mysql
+    - watch:
+      - file: /etc/php5/apache2/php.ini
+
+/etc/zabbix/web/zabbix.conf.php:
+  file.managed:
+    - require:
+      - service: zabbix-server
+    - template: jinja
+    - source: salt://zabbix/files/zabbix.conf.php.jinja
+    - mode: 755
+    - context:
+      database: {{ database }}
 
