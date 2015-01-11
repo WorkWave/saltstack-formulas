@@ -12,6 +12,31 @@ wso2:
     group: users
 
 # --------------------------------------------
+# zabbix
+# --------------------------------------------
+
+mysql:
+  server:
+    root_password: yourrootpassword
+  user:
+    zabbix:
+      password: 'zabbixpassword'
+      host: localhost
+      databases:
+        - database: zabbixdatabase
+          grants: ['all privileges']
+  database:
+    - zabbix
+
+zabbix:
+  database_host: localhost
+  database: zabbixdatabase
+  database_user: zabbixuser
+  database_password: zabbixpassword
+  server_host: localhost
+  server_name: MyZabbix
+  
+# --------------------------------------------
 # oracle-java
 # --------------------------------------------
 
