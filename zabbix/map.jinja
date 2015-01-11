@@ -1,4 +1,6 @@
-{# Jinja comment #}
+{# zabbix/map.jinja
+   Set defaults for zabbix.* vars.  Overwrite with values from the pillar (if any)
+#}
 
 {% set zabbix = salt['grains.filter_by']( {
     'default': {

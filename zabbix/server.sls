@@ -1,17 +1,14 @@
 # Zabbix server install
 # ------------------------------------------------------------------------------
 
-#include:
-#  - zabbix.common
-{% include 'zabbix/common.sls' %}
 {% from "zabbix/map.jinja" import zabbix with context %}
+
+include:
+  - zabbix.common
 
 {% set mysql_root_pass = salt['pillar.get']('mysql:server:root_password', salt['grains.get']('server_id')) %}
 
 
-# Password in /etc/zabbix/zabbix_server.conf was not set properly
-# DBPassword=zabbix
-# runs through the config / setup script -- automate that.
 php-set-timezone:
   file.replace:
     - name: /etc/php5/apache2/php.ini
