@@ -3,18 +3,18 @@
 global $DB;
 
 $DB['TYPE']     = 'MYSQL';
-$DB['SERVER']   = 'localhost';
+$DB['SERVER']   = '{{ zabbix_database_host }}';
 $DB['PORT']     = '0';
-$DB['DATABASE'] = 'zabbix';
-$DB['USER']     = 'zabbix';
-$DB['PASSWORD'] = 'zabbix';
+$DB['DATABASE'] = '{{ zabbix_database }}';
+$DB['USER']     = '{{ zabbix_database_user }}';
+$DB['PASSWORD'] = '{{ zabbix_database_password }}';
 
 // Schema name. Used for IBM DB2 and PostgreSQL.
 $DB['SCHEMA'] = '';
 
-$ZBX_SERVER      = 'localhost';
+$ZBX_SERVER      = '{{ zabbix_server_host }}';
 $ZBX_SERVER_PORT = '10051';
-$ZBX_SERVER_NAME = 'opsy';
+$ZBX_SERVER_NAME = '{{ zabbix_server_name }}';
 
 $IMAGE_FORMAT_DEFAULT = IMAGE_FORMAT_PNG;
 ?>

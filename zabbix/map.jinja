@@ -1,0 +1,15 @@
+{# Jinja comment #}
+
+{% set zabbix = salt['grains.filter_by']( {
+    'default': {
+      'database': 'zabbix',
+      'database_host': 'localhost',
+      'database_user': 'zabbix',
+      'database_password': 'zabbix',
+      'server_host': 'localhost',
+      'server_name': 'MyDefaultZabbix',
+    },
+  },
+  merge=salt['pillar.get']('zabbix')
+)
+%}
