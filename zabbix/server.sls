@@ -59,9 +59,14 @@ zabbix-data-init:
   file.managed:
     - template: jinja
     - source: salt://zabbix/files/zabbix_server.conf.jinja
-    - mode: 755
+    - mode: 644
     - context:
-      database: {{ zabbix.database }}
+      zabbix_database_host: {{ zabbix.database_host }}
+      zabbix_database: {{ zabbix.database }}
+      zabbix_database_user: {{ zabbix.database_user }}
+      zabbix_database_password: {{ zabbix.database_password }}
+      zabbix_server_host: {{ zabbix.server_host }}
+      zabbix_server_name: {{ zabbix.server_name }}
 
 apache2-service:
   service.running:
