@@ -4,6 +4,7 @@
 {% from "zabbix/map.jinja" import zabbix with context %}
 
 include:
+  - mysql
   - zabbix.common
 
 {% set mysql_root_pass = salt['pillar.get']('mysql:server:root_password', salt['grains.get']('server_id')) %}
