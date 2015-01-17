@@ -9,7 +9,6 @@ include:
 
 {% set mysql_root_pass = salt['pillar.get']('mysql:server:root_password', salt['grains.get']('server_id')) %}
 
-
 php-set-timezone:
   file.replace:
     - name: /etc/php5/apache2/php.ini
