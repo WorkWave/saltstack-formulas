@@ -51,7 +51,11 @@ zabbix-data-init:
 /usr/lib/zabbix/alertscripts/zabbix-alert-gmail-smtp.py3:
   file.managed:
     - source: salt://zabbix/files/zabbix-alert-gmail-smtp.py3
-    - mode: 700 
+    - mode: 755
+    - context:
+      gmail_account: {{ zabbix.database_host }}
+      gmail_password: {{ zabbix.database }}
+      sender_name: {{ zabbix.sender_name }}
     - require:
       - pkg: zabbix-server-mysql
 

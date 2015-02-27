@@ -11,11 +11,11 @@ from email.Header import Header
 from email.Utils import formatdate
 
 # Mail Account
-MAIL_ACCOUNT = 'your.account@gmail.com'
-MAIL_PASSWORD = 'your mail password'
+MAIL_ACCOUNT = '{{ gmail_account }}'
+MAIL_PASSWORD = '{{ gmail_password }}'
 
 # Sender Name
-SENDER_NAME = u'Zabbix Alert'
+SENDER_NAME = u'{{ sender_name }}'
 
 # Mail Server
 SMTP_SERVER = 'smtp.gmail.com'
