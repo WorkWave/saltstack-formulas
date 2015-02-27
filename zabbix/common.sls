@@ -1,6 +1,8 @@
 # Zabbix common.sls -- shared Zabbix config info and states
 # ----------------------------------------------------------
 
+{% from "zabbix/map.jinja" import zabbix with context %}
+
 # Configure apt to use the Zabbix repo
 zabbix-repo:
   pkgrepo.managed:
