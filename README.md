@@ -44,4 +44,3 @@ Installs various WSO2 products.  Each product must be downloaded to
 the `files` directory in order to install, as WSO2 protects downloads via
 authentication and provides no repository.
 
-Testing Rally integration.
