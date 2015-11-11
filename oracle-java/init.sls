@@ -5,8 +5,8 @@
 # Automatically accept the oracle license
 Accept Oracle Terms:
   debconf.set:
-    - name: oracle-java6-installer 
-    - data: 
+    - name: oracle-java6-installer
+    - data:
         'shared/accepted-oracle-license-v1-1': {'type': 'boolean', 'value': True }
 
 # Configure apt to use the WEB UPD8 repo
@@ -47,4 +47,3 @@ oracle-java6-installer:
     - require:
       - pkgrepo: webupd8-repo
       - debconf: Accept Oracle Terms
-

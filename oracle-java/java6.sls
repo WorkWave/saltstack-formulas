@@ -9,8 +9,8 @@
 # Automatically accept the oracle license
 Accept Oracle6 Terms:
   debconf.set:
-    - name: oracle-java6-installer 
-    - data: 
+    - name: oracle-java6-installer
+    - data:
         'shared/accepted-oracle-license-v1-1': {'type': 'boolean', 'value': True }
 
 # Include US security files.
@@ -33,4 +33,3 @@ oracle-java6-installer:
     - require:
       - pkgrepo: webupd8-repo
       - debconf: Accept Oracle6 Terms
-
