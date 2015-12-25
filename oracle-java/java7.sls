@@ -9,8 +9,8 @@
 # Automatically accept the oracle license
 Accept Oracle7 Terms:
   debconf.set:
-    - name: oracle-java7-installer 
-    - data: 
+    - name: oracle-java7-installer
+    - data:
         'shared/accepted-oracle-license-v1-1': {'type': 'boolean', 'value': True }
 
 # Run the installer itself
@@ -21,3 +21,8 @@ oracle-java7-installer:
       - pkgrepo: webupd8-repo
       - debconf: Accept Oracle7 Terms
 
+oracle-java7-set-default:
+  pkg:
+    - installed
+    - require:
+      - pkg: oracle-java7-installer
